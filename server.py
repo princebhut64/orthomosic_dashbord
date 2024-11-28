@@ -13,17 +13,21 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 data = {
     'countries': ['India'],
     'states': ['Gujarat', 'Madhya Pradesh', 'Maharashtra'],
-    'cities': ['Ahmedabad', 'Mumbai'],
+    'cities': ['Ahmedabad', 'Mumbai','Rajkot'],
     'projects': ['Project A', 'Project B', 'Project C']
 }
 
 def get_coordinates(country, state, city):
-    url = "https://nominatim.openstreetmap.org/search"
-    params = {'country': country, 'state': state, 'city': city, 'format': 'json', 'limit': 1}
-    response = requests.get(url, params=params)
+    headers = {
+    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+    'accept-language': 'en-US,en;q=0.9',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
+    }
+    url = f"https://nominatim.openstreetmap.org/search.php?q={city}%2C+{state}%2C+{country}&format=jsonv2"
+    response = requests.request("GET",url,headers=headers)
+    print(response)
     if response:
         data = response.json()
-        print(data)
         if data:
             return data[0]['lat'], data[0]['lon']
         else:
@@ -79,9 +83,9 @@ def get_data():
     }
     return jsonify(response_data)
 
-@app.route('/orthomosaic')
-def get_orthomosaic():
-    return send_file('public/orthomosaic.png', mimetype='image/png')
+# @app.route('/orthomosaic')
+# def get_orthomosaic():
+#     return send_file('public/orthomosaic.png', mimetype='image/png')
 
 if __name__ == '__main__':
     app.run(debug=True)
