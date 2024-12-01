@@ -3,25 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIS Dashboard</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Orthomosic Dashbord</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet"></script>
+    <script src="/public/script.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.css" />
 </head>
 <body>
-    <div id="controls">
-        <select id="country-select"></select>
-        <select id="state-select"></select>
-        <select id="city-select"></select>
-        <select id="project-select"></select>
-        <input type="file" id="fileInput" />
-        <button id="uploadBtn">Upload</button>
-        <button id="submitBtn">Submit</button>
-    </div>
-    <div id="map"></div>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-    <script>
-        const data = {{ data|tojson }};
-    </script>
+    <h1>TIFF File Uploader & Map Visualization</h1>
+
+    Dropdown Form
+    <form id="location-form">
+        <label for="country">Country:</label>
+        <select id="country" name="country">
+            <option>India</option>
+        </select>
+        <label for="state">State:</label>
+        <select id="state" name="state">
+            <option>Gujarat</option>
+            <option>Madhya Pradesh</option>
+            <option>Maharashtra</option>
+        </select>
+        <label for="city">City:</label>
+        <select id="city" name="city">
+            <option>Ahmedabad</option>
+            <option>Mumbai</option>
+            <option>Rajkot</option>
+            <option>Junagadh</option>
+            <option>Vadodara</option>
+            <option>Indore</option>
+            <option>Surat</option>
+        </select>
+        <label for="project">Project:</label>
+        <select id="project" name="project">
+            <option>Project A</option>
+            <option>Project B</option>
+            <option>Project C</option>
+        </select>
+        <button type="submit">Get Location Data</button>
+    </form>
+
+     <!-- File Upload Form -->
+    <form id="upload-form" enctype="multipart/form-data" style="margin-top: 20px;">
+        <label for="file">Upload TIFF File:</label>
+        <input type="file" id="file" name="file">
+        <button type="submit">Upload</button>
+    </form>
+
+    <!-- Map Viewer -->
+    <div id="map" style="height: 500px; margin-top: 20px;"></div>
 </body>
 </html>
